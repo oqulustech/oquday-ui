@@ -58,18 +58,21 @@ export default function LoginComponent() {
                                     </div>
                                 </div>
                                 <div className="mb-3">
-                                    <div className="mb-2 w-100">
-                                        <label className="text-muted" >Password</label>
-                                    </div>
-                                    <input id="password" type="password" className="form-control" name="password" required />
-
+                                    <ValidatedInput
+                                        labelName='Password'
+                                        type="password"
+                                        name="password"
+                                        fieldSchema={loginSchema.shape["password"]}
+                                        wasSubmitted={wasSubmitted}
+                                        defaultValue={state.form?.password}
+                                        errors={state.errors?.password}
+                                    />
                                 </div>
                                 <div className="d-flex align-items-center">
                                     <div className="form-check">
                                         <input type="checkbox" name="remember" id="remember" className="form-check-input" />
                                         <label className="form-check-label">Remember Me</label>
                                     </div>
-
                                 </div>
                                 <button type="submit" className="btnBg btn btn-primary  ms-auto mt-2">
                                     Login

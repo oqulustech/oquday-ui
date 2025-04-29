@@ -15,9 +15,12 @@ export async function signInAction(
             form,
             errors: validationResult.error.flatten().fieldErrors
         }
+    } else {
+
+        redirect("/pages/register")
     }
 
-    redirect("/")
+
 }
 
 
