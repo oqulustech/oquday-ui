@@ -41,21 +41,19 @@ export default function LoginComponent() {
                     </div>
                     <div className="card shadow-lg minusMargin" id="">
                         <div className="card-body p-5">
-                            <h1 className="fs-4 card-title fw-bold mb-2">Login</h1>
+                            <h1 className="fs-4 card-title fw-bold">Login</h1>
                             <form className="needs-validation" onSubmit={handleSubmit} action={action} >
-                                <div className="flex w-full component-preview p-4 items-center justify-center gap-2 font-sans"> </div>
+                                <div className="flex w-full component-preview p-2 items-center justify-center gap-2 font-sans"> </div>
                                 <div className="mb-3">
-                                    <div className="mb-2 w-100">
-                                        <ValidatedInput
-                                            labelName='EMail Address'
-                                            type="text"
-                                            name="email"
-                                            fieldSchema={loginSchema.shape["email"]}
-                                            wasSubmitted={wasSubmitted}
-                                            defaultValue={state.form?.email}
-                                            errors={state.errors?.email}
-                                        />
-                                    </div>
+                                    <ValidatedInput
+                                        labelName='Email Address'
+                                        type="text"
+                                        name="email"
+                                        fieldSchema={loginSchema.shape["email"]}
+                                        wasSubmitted={wasSubmitted}
+                                        defaultValue={state.form?.email}
+                                        errors={state.errors?.email}
+                                    />
                                 </div>
                                 <div className="mb-3">
                                     <ValidatedInput
