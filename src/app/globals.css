@@ -18,6 +18,18 @@ body {
   overflow-x: hidden;
 }
 
+#minusMargin {
+  margin-top: -5% !important;
+}
+
+.minusMargin {
+  margin-top: -25% !important;
+}
+
+#registrMargin {
+  margin-top: -8% !important;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
