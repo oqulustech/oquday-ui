@@ -19,7 +19,7 @@ export default function LoginComponent() {
         if (!validationResult.success) {
             event.preventDefault()
         } else {
-            alert('sucess')
+            alert("Login successful!");
         }
     }
 

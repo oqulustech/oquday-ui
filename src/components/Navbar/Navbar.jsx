@@ -1,32 +1,58 @@
-import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
+'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+import Sidebar from '../Sidebar/Sidebar';
+import styles from './Navbar.module.css';
+import logo from '../../assets/logo.png'; 
+import { Bell,EnvelopeAt,PersonFillGear} from 'react-bootstrap-icons';
 
-export default function Navbar() {
+const Navbar = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev);
+  };
+
+  const handleClickOutside = (event) => {
+    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      setSidebarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
   return (
-    <nav className="bg-white shadow-md fixed top-0 w-full z-50">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <img src={logo} alt="Logo" className="h-20 w-auto" />
-        </Link>
-
-        <div className="flex space-x-8">
-          <Link to="/home" className="text-gray-700 hover:text-blue-600">
-            Home
-          </Link>
-          <Link to="/alerts" className="text-gray-700 hover:text-blue-600">
-            Alerts
-          </Link>
-          <Link
-            to="/notification"
-            className="text-gray-700 hover:text-blue-600"
-          >
-            Notification
-          </Link>
-          <Link to="/Profile" className="text-gray-700 hover:text-blue-600">
-            Profile
-          </Link>
+    <>
+      <nav className={styles.navbar}>
+        <div className={styles.leftSection}>
+          <button className={styles.hamburger} onClick={toggleSidebar}>
+            ☰
+          </button>
+          <Image src={logo} alt="Logo" width={150} height={150} />
         </div>
-      </div>
-    </nav>
+        <div className={styles.searchWrapper}>
+          <input type="text" placeholder="Search" className={styles.searchInput} />
+        </div>
+        <div className={styles.rightSection}>
+          <div className={styles.icon}> <Bell size={24} className="text-primary" /><span className={styles.badge}>2</span></div>
+          <div className={styles.icon}> <EnvelopeAt size={23} className="text-primary"/><span className={styles.badge}>3</span></div>
+          <div><PersonFillGear size={30} className="text-primary"/></div>
+        </div>
+      </nav>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} sidebarRef={sidebarRef} />
+    </>
   );
-}
+};
+
+export default Navbar; 
