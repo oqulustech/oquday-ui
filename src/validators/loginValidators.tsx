@@ -17,7 +17,7 @@ export async function signInAction(
         }
     }
 
-    redirect("/")
+    redirect("/pages/dashboard")
 }
 
 
