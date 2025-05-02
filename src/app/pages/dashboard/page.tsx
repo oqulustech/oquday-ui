@@ -1,10 +1,10 @@
 'use client';
-
+import dynamic from 'next/dynamic';
 import React from 'react';
 import NavHeader from '../../../components/Navbar/Navbar';
-import AwaitingActionCard from './components/AwaitingActionCard';
 import styles from './dashboard.module.css';
-import Greeting from './components/Greeting';
+const AwaitingActionCard = dynamic(() => import('./components/AwaitingActionCard'));
+const Greeting = dynamic(() => import('./components/Greeting'));
 
 export default function DashboardPage() {
   const initialHour = new Date().getHours();
