@@ -1,23 +1,25 @@
 "use server";
-
-
-import { redirect } from "next/navigation"
-import { loginAction, loginSchema } from "../app/api/auth/login"
+import { redirect, } from "next/navigation"
+import { loginAction, loginSchema } from "../app/api/auth/login";
 
 export async function signInAction(
     _prev: loginAction,
     formData: FormData
+
 ): Promise<loginAction> {
+    console.log(_prev)
     const form = Object.fromEntries(formData)
     const validationResult = loginSchema.safeParse(form)
+
     if (!validationResult.success) {
         return {
             form,
             errors: validationResult.error.flatten().fieldErrors
         }
     } else {
-
-        redirect("/pages/register")
+        console.log(_prev)
+        // return { form }
+        redirect("/pages/dashboard")
     }
 
 }

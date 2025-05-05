@@ -1,15 +1,17 @@
 'use client';
 import Image from "next/image";
 import styles from "../../app/page.module.css";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import Link from 'next/link'
 import { signInAction } from "../../validators/loginValidators";
 import { loginSchema } from "../../app/api/auth/login";
-import { ValidatedInput } from "../ui/input"
+import { ValidatedInput } from "../ui/input";
+import axiosInstance from '../../app/auth/httpInterceptor';
 export default function LoginComponent() {
     const [wasSubmitted, setWasSubmitted] = useState(false)
-    const [state, action, isPending] = useActionState(signInAction, {})
-
+    const [data, setData] = useState(null)
+    const [state, action, setResponse] = useActionState(signInAction, {});
+    let responseData: any
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setWasSubmitted(true)
         const formData = new FormData(event.currentTarget)
@@ -19,10 +21,19 @@ export default function LoginComponent() {
         if (!validationResult.success) {
             event.preventDefault()
         } else {
-            alert("Login successful!");
+            axiosInstance.post('http://localhost:3001/api/v1/auth/login', JSON.stringify(validationResult.data)) // Replace with your API endpoint
+                .then(response => {
+                    console.log(response)
+                    responseData = response.data
+                })
+                .catch(error => {
+                    console.log(error.response?.data)
+                    console.error('Error fetching data:', error);
+                    responseData = error.response?.data
+                });
+
         }
     }
-
     return (
 
         <div className="container h-100">
