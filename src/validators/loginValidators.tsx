@@ -15,12 +15,20 @@ export async function signInAction(
         return {
             form,
             errors: validationResult.error.flatten().fieldErrors
-        }
-    } else {
-        console.log(_prev)
-        // return { form }
-        redirect("/pages/dashboard")
+        };
     }
+    return { form };
+
+    // if (!validationResult.success) {
+    //     return {
+    //         form,
+    //         errors: validationResult.error.flatten().fieldErrors
+    //     }
+    // } else {
+    //     console.log(_prev)
+    //     // return { form }
+    //     redirect("/pages/dashboard")
+    // }
 
 }
 

@@ -2,38 +2,80 @@
 import Image from "next/image";
 import styles from "../../app/page.module.css";
 import { useActionState, useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { signInAction } from "../../validators/loginValidators";
 import { loginSchema } from "../../app/api/auth/login";
 import { ValidatedInput } from "../ui/input";
 import axiosInstance from '../../app/auth/httpInterceptor';
 export default function LoginComponent() {
-    const [wasSubmitted, setWasSubmitted] = useState(false)
-    const [data, setData] = useState(null)
-    const [state, action, setResponse] = useActionState(signInAction, {});
-    let responseData: any
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        setWasSubmitted(true)
-        const formData = new FormData(event.currentTarget)
-        const data = Object.fromEntries(formData)
-        console.log(data)
-        const validationResult = loginSchema.safeParse(data)
-        if (!validationResult.success) {
-            event.preventDefault()
-        } else {
-            axiosInstance.post('http://localhost:3001/api/v1/auth/login', JSON.stringify(validationResult.data)) // Replace with your API endpoint
-                .then(response => {
-                    console.log(response)
-                    responseData = response.data
-                })
-                .catch(error => {
-                    console.log(error.response?.data)
-                    console.error('Error fetching data:', error);
-                    responseData = error.response?.data
-                });
+    const [wasSubmitted, setWasSubmitted] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [state, action] = useActionState(signInAction, {});
+    const router = useRouter();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setWasSubmitted(true);
+        setApiError(null);
+        setIsLoading(true);
 
+        console.log(state)
+        const formData = new FormData(event.currentTarget);
+        const validationResult = loginSchema.safeParse(formData);
+        if (validationResult?.success) {
+            setIsLoading(false);
+            return;
         }
-    }
+        try {
+            const response = await axiosInstance.post(
+                'http://localhost:3001/api/v1/auth/login',
+                JSON.stringify(Object.fromEntries(formData))
+            );
+
+            if (response.data?.data?.access_token) {
+                localStorage.setItem('token', response.data.accessToken);
+                router.push('/pages/dashboard');
+            } else {
+                setApiError(response.data?.message || 'Login failed');
+            }
+        } catch (error: any) {
+            console.error('Login error:', error);
+            setApiError(
+                error.response?.data?.message ||
+                error.response?.data?.error ||
+                'Login failed. Please try again.'
+            );
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
+    // // const formData = new FormData(event.currentTarget)
+    // // const data = Object.fromEntries(formData)
+    // // console.log(data)
+    // // const validationResult = loginSchema.safeParse(data)
+    // // if (!validationResult.success) {
+    // //     event.preventDefault()
+    // // } else {
+
+
+
+
+    // //     axiosInstance.post('http://localhost:3001/api/v1/auth/login', JSON.stringify(validationResult.data)) // Replace with your API endpoint
+    // //         .then(response => {
+    // //             console.log(response)
+    // //             responseData = response.data
+    // //         })
+    // //         .catch(error => {
+    // //             console.log(error.response?.data)
+    // //             console.error('Error fetching data:', error);
+    // //             responseData = error.response?.data
+    // //         });
+
+    // }
+
     return (
 
         <div className="container h-100">
