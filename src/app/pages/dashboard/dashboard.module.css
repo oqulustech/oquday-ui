@@ -1,32 +1,5 @@
 .dashboardContainer {
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  gap: 1.5rem;
-  padding: 1.5rem;
   background-color: #f4f6f8;
-  min-height: calc(100vh - 60px);
+
 }
 
-.leftColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .dashboardContainer {
-    grid-template-columns: 1fr;
-    flex-direction: column;
-  }
-
-  .leftColumn,
-  .rightColumn {
-    gap: 1rem;
-  }
-}
