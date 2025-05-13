@@ -1,15 +1,15 @@
 "use server";
 import { redirect, } from "next/navigation"
-import { loginAction, loginSchema } from "../app/api/auth/login";
+import { registerAction, registerSchema } from "../app/api/auth/register";
 
-export async function signInAction(
-    _prev: loginAction,
+export async function registerMAction(
+    _prev: registerAction,
     formData: FormData
 
-): Promise<loginAction> {
+): Promise<registerAction> {
     console.log(_prev)
     const form = Object.fromEntries(formData)
-    const validationResult = loginSchema.safeParse(form)
+    const validationResult = registerSchema.safeParse(form)
 
     if (!validationResult.success) {
         return {

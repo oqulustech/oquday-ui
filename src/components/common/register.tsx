@@ -1,10 +1,16 @@
 'use client';
 import Image from "next/image";
 import styles from "../../app/page.module.css";
-
+import { registerSchema } from "../../app/api/auth/register";
+import { registerMAction } from '../../validators/registerValidators'
 import React, { FormEvent } from 'react'
+import { useActionState, useState, useEffect } from "react";
+
 import Link from "next/link";
+import { ValidatedInput } from "../ui/input";
 export default function RegisterComponent() {
+    const [wasSubmitted, setWasSubmitted] = useState(false);
+    const [state, action] = useActionState(registerMAction, {});
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
@@ -35,9 +41,15 @@ export default function RegisterComponent() {
                                     <div className="col-4">
                                         <label className="mb-2 text-muted" >First Name</label>
                                         <input id="text" type="text" className="form-control" name="email" required />
-                                        <div className="invalid-feedback">
-                                            First Name
-                                        </div>
+                                        <ValidatedInput
+                                            labelName='Email Address'
+                                            type="text"
+                                            name="email"
+                                            fieldSchema={registerSchema.shape["email"]}
+                                            wasSubmitted={wasSubmitted}
+                                            defaultValue={state.form?.email}
+                                            errors={state.errors?.email}
+                                        />
                                     </div>
                                     <div className="col-4">
                                         <label className="mb-2 text-muted" >Last Name</label>
