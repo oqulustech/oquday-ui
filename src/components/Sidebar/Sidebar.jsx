@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
       id: 'logout',
       label: 'Logout',
       icon: <ArrowBarRight size={20} className="text-primary" />,
-      path: '/pages/loginPage',
+      path: '/login',
       subItems: []
     }
   ];
