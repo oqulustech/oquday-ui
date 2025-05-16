@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
 import { useRouter } from 'next/navigation';
-import { HouseCheck,Person,Folder,Save, ArrowBarRight} from 'react-bootstrap-icons';
+import { HouseCheck, Person, Folder, Save, ArrowBarRight } from 'react-bootstrap-icons';
 
 const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
       icon: <Person size={20} className="text-primary" />,
       path: '#',
       subItems: [
-        { id: 'learning', label: 'Learning', path: '/learn' },
+        { id: 'learning', label: 'Learning', path: '/learning' },
         { id: 'favorite', label: 'Favorite', path: '/favorites' }
       ]
     },
@@ -54,11 +54,11 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
 
   useEffect(() => {
     const currentPath = router.pathname;
-    const activeItem = menuItems.find(item => 
-      item.path === currentPath || 
+    const activeItem = menuItems.find(item =>
+      item.path === currentPath ||
       item.subItems.some(sub => sub.path === currentPath)
     );
-    
+
     if (activeItem) {
       setActiveMenu(activeItem.id);
       if (activeItem.subItems.some(sub => sub.path === currentPath)) {
@@ -77,7 +77,7 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
   const handleNavigation = (path, menuId) => {
     setActiveMenu(menuId);
     router.push(path);
-    if (isOpen) toggleSidebar(); 
+    if (isOpen) toggleSidebar();
   };
 
   const isMenuOpen = (menuId) => openMenus[menuId] || false;
@@ -94,17 +94,15 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
 
       <ul className={styles.menu}>
         {menuItems.map((item) => (
-          <li 
-          key={item.id}
-          className={`${styles.menuGroup} ${
-            item.subItems ? '' : styles.menuItem
-          } ${
-            (item.id === activeMenu || isSubItemActive(item)) ? styles.activeGroup : ''
-          }`}
-        >
+          <li
+            key={item.id}
+            className={`${styles.menuGroup} ${item.subItems ? '' : styles.menuItem
+              } ${(item.id === activeMenu || isSubItemActive(item)) ? styles.activeGroup : ''
+              }`}
+          >
             {item.subItems.length > 0 ? (
               <>
-                <div 
+                <div
                   className={`${styles.groupHeader} ${isMenuOpen(item.id) ? styles.open : ''}`}
                   onClick={() => {
                     toggleMenu(item.id);
@@ -116,15 +114,14 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
                     {isMenuOpen(item.id) ? '▾' : '▸'}
                   </span>
                 </div>
-                
+
                 {isMenuOpen(item.id) && (
                   <ul className={styles.subMenu}>
                     {item.subItems.map((subItem) => (
-                      <li 
+                      <li
                         key={subItem.id}
-                        className={`${styles.subMenuItem} ${
-                          subItem.id === activeMenu ? styles.active : ''
-                        }`}
+                        className={`${styles.subMenuItem} ${subItem.id === activeMenu ? styles.active : ''
+                          }`}
                         onClick={() => handleNavigation(subItem.path, subItem.id)}
                       >
                         <span>{subItem.label}</span>
@@ -134,7 +131,7 @@ const Sidebar = ({ isOpen, toggleSidebar, sidebarRef }) => {
                 )}
               </>
             ) : (
-              <div 
+              <div
                 className={styles.menuContent}
                 onClick={() => handleNavigation(item.path, item.id)}
               >
