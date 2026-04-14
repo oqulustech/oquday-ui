@@ -1,2 +1,3 @@
-export const serverPath = 'https://localhost:4200/';
-export const login = '/login';
+export const serverPath = 'http://localhost:3001/api/v1/';
+
+export const login = 'auth/login';

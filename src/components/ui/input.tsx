@@ -30,17 +30,18 @@ const ValidatedInput = ({
 
     return (
         <>
-            <div className="mb-3">
-                <label className="form-check-label">{labelName}</label>
-                <Input
-                    id={name}
-                    name={name}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    className='form-control'
-                    {...props}
-                />
+            <div className="mb-2 w-100">
+                <label className="text-muted" >{labelName}</label>
             </div>
+            <Input type={type}
+                id={name}
+                name={name}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                className='form-control'
+                {...props}
+            />
+
             {shouldRenderErrors && (
                 <span className="text-sm text-red-500">{fieldErrors}</span>
             )}

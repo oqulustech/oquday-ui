@@ -1,4 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
   --background: #ffffff;
@@ -47,6 +48,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.text-red-500 {
+  color: red;
 }
 
 @media (prefers-color-scheme: dark) {
